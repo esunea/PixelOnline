@@ -12,7 +12,7 @@ export class Pane {
         height:` + this.height + `px;
         ">
       <div class="window--content"></div>
-      <div class="window--snap">` + this.title + `</div>
+      <div class="window--snap noselect">` + this.title + `</div>
     </div>`;
     document.body.innerHTML += elem;
     this.elem = document.querySelector('#' + id)

@@ -19,7 +19,7 @@ export class PaneManager {
   }
   createLogin() {
     let pane = new PaneLogin()
-    pane.create(300, 300, 'login', "Login")
+    pane.create(300, 250, 'login', "Login")
     pane.setZIndex(++this.z)
     document.querySelector("#" + pane.id).addEventListener('click', evt => {
       console.log(evt);

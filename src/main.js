@@ -1,6 +1,7 @@
 import 'phaser';
 import BootScene from './scenes/BootScene';
 import {PaneManager} from './ui/PaneManager';
+import css from "./css/style.css"
 
 const config = {
     type: Phaser.WEBGL,
@@ -12,7 +13,6 @@ const config = {
 };
 
 const PM = new PaneManager();
-PM.create(300, 400, 'test', "Test")
 PM.createLogin()
 console.log(PM);
 // const game = new Phaser.Game(config);

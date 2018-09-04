@@ -31,7 +31,7 @@ module.exports = {
         libraryTarget: 'umd',
         filename: '[name].js'
     },
-    watch: true, 
+    watch: true,
     plugins: [
         definePlugin,
         //new webpack.optimize.CommonsChunkPlugin({ name: 'vendor'/* chunkName= */, filename: 'vendor.bundle.js'/* filename= */ }),
@@ -64,7 +64,8 @@ module.exports = {
         rules: [
             { test: /\.js$/, use: ['babel-loader'], include: path.join(__dirname, 'src') },
             { test: /phaser-split\.js$/, use: ['expose-loader?Phaser'] },
-            { test: [/\.vert$/, /\.frag$/], use: 'raw-loader' }
+            { test: [/\.vert$/, /\.frag$/], use: 'raw-loader' },
+            { test: [/\.css$/], use: 'css-loader' }
         ]
     },
    /* node: {
