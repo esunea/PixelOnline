@@ -1,8 +1,8 @@
 import 'phaser';
 import BootScene from './scenes/BootScene';
+import {PaneManager} from './ui/PaneManager';
 
 const config = {
-    // For more settings see <https://github.com/photonstorm/phaser/blob/master/src/boot/Config.js>
     type: Phaser.WEBGL,
     pixelArt: true,
     roundPixels: true,
@@ -11,4 +11,8 @@ const config = {
     height: window.innerHeight
 };
 
+const PM = new PaneManager();
+PM.create(300, 400, 'test', "Test")
+PM.createLogin()
+console.log(PM);
 // const game = new Phaser.Game(config);
