@@ -1,4 +1,4 @@
-import {Pane} from "./Pane";
+import {Pane} from "./";
 
 export class PaneLogin extends Pane {
   constructor () {
@@ -6,7 +6,7 @@ export class PaneLogin extends Pane {
   }
   create (width, height, id, title) {
     super.create(width, height, id, title)
-    document.querySelector('#' + id + ' .window--content').innerHTML = `
+    document.querySelector('#' + this.id + ' .window--content').innerHTML = `
       <div class="window--margins">
         <label class="fullwidth noselect" for="email$">Email:</label>
         <input name="email$" type="text" placeholder="Johndoe@mail.com" />
@@ -14,9 +14,16 @@ export class PaneLogin extends Pane {
         <input name="password" type="password$" placeholder="••••" />
         <div class="buttons noselect">
           <button>Register</button>
-          <button class="primary">Connexion</button>
+          <button class="primary" id="` + this.id + `--submit">Connexion</button>
         </div>
       </div>
     `;
+    this.initForm();
+  }
+  initForm () {
+    document.querySelector('#' + this.id + '--submit').addEventListener('click', event => {
+      event.stopPropagation();
+      console.log(event);
+    })
   }
 }
