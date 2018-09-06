@@ -23,10 +23,11 @@ body{
   font-weight: bold;
   top: -34px;
   left: 0px;
-  width: calc(100% - 6px);
+  width: 100%;
   height: 32px;
   display: flex;
-  padding:0 12px 0 0;
+  flex-direction: row;
+  justify-content: space-between;
   box-sizing: border-box;
   align-items: center;
   color:#FEFEFE;
@@ -34,6 +35,46 @@ body{
 .window--snap .title{
   background: #5b6ee1;
   padding: 4px 16px 4px 8px;
+}
+.window--snap .controls{
+  background: #5b6ee1;
+  padding-left: 8px;
+  height: 30px;
+}
+.window--snap .controls button{
+  background: transparent;
+  position: relative;
+  width: 20px;
+  height: 20px;
+  padding:0;
+  margin:0;
+}
+.window--snap .controls button.close:hover:after, .window--snap .controls button.close:hover:before{
+  background: white;
+}
+.window--snap .controls button.close:active:after, .window--snap .controls button.close:active:before{
+  background: #515db9;
+}
+.window--snap .controls button.close{
+  transform: translateY(5px) rotate(45deg);
+}
+.window--snap .controls button.close:after{
+  content:"";
+  background: #ccd2f5;
+  left: 0;
+  top:8px;
+  position: absolute;
+  width: 100%;
+  height: 4px;
+}
+.window--snap .controls button.close:before{
+  content:"";
+  background: #ccd2f5;
+  top: 0;
+  left:8px;
+  position: absolute;
+  width: 4px;
+  height: 100%;
 }
 .window--resize{
   position: absolute;

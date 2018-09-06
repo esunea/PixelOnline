@@ -34,8 +34,16 @@ class Database {
           'email': email,
           'password': password
         })
+        return {
+          'username': username,
+          'email': email,
+          'password': password
+        }
+      } else {
+        return false;
       }
     }
+    console.log(this.users);
   }
   isUnique (collection, field, value) {
     if (!this.USE_DB) {

@@ -30,4 +30,13 @@ io.on('connection', function (socket) {
       socket.emit('loginResponse', "error");
     }
   })
+  socket.on('register', function (detail) {
+    detail = JSON.parse(detail)
+    let log = DB.register(detail.username, detail.email, detail.password);
+    if (log !== false) {
+      socket.emit('registerResponse', JSON.stringify(log));
+    } else {
+      socket.emit('registerResponse', "error");
+    }
+  })
 });
