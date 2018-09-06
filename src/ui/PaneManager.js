@@ -26,6 +26,14 @@ export class PaneManager {
     pane.setInteractable()
     this.panes.push(pane)
   }
+  remove (type, id) {
+    this[type].forEach((item, i) => {
+      if(item.id === id) {
+        item.destroy()
+        this.panes.splice(i, 1)
+      }
+    })
+  }
   createTchat() {
     let pane = new Pane()
     let button = new ButtonTab('tchat', 'tchat')
@@ -37,7 +45,6 @@ export class PaneManager {
     this.panes.push(pane)
     this.buttons.push(button)
     $(document).on('click', '#tchat-button', event => {
-      console.log(event);
       this.get("buttons", "tchat-button").toggleActive();
       this.get("panes", "tchat-pane").toggleActive();
       return false;
@@ -54,7 +61,6 @@ export class PaneManager {
     this.panes.push(pane)
     this.buttons.push(button)
     $(document).on('click', '#rooms-button', event => {
-      console.log(event);
       this.get("buttons", "rooms-button").toggleActive();
       this.get("panes", "rooms-pane").toggleActive();
       return false;

@@ -1,4 +1,5 @@
 import {Pane} from "./";
+import $ from 'webpack-zepto'
 
 export class PaneLogin extends Pane {
   constructor () {
@@ -8,10 +9,10 @@ export class PaneLogin extends Pane {
     super.create(width, height, id, title)
     document.querySelector('#' + this.id + ' .window--content').innerHTML = `
       <div class="window--margins">
-        <label class="fullwidth noselect" for="email$">Email:</label>
-        <input name="email$" type="text" placeholder="Johndoe@mail.com" />
-        <label class="fullwidth noselect" for="password$">Password</label>
-        <input name="password" type="password$" placeholder="••••" />
+        <label class="fullwidth noselect" for="` + this.id + `--email">Email:</label>
+        <input name="` + this.id + `--email" type="text" placeholder="Johndoe@mail.com" />
+        <label class="fullwidth noselect" for="` + this.id + `--password">Password</label>
+        <input name="` + this.id + `--password" type="password" placeholder="••••" />
         <div class="buttons noselect">
           <button>Register</button>
           <button class="primary" id="` + this.id + `--submit">Connexion</button>
@@ -21,9 +22,14 @@ export class PaneLogin extends Pane {
     this.initForm();
   }
   initForm () {
-    document.querySelector('#' + this.id + '--submit').addEventListener('click', event => {
+    $(document).on('click','#' + this.id + '--submit', event => {
       event.stopPropagation();
-      console.log(event);
+      let credentials = {
+        email: $('input[name=' + this.id + '--email]').val(),
+        password: $('input[name=' + this.id + '--password]').val()
+      }
+      let loginEvent = new CustomEvent('login', { 'detail': credentials });
+      document.body.dispatchEvent(loginEvent);
     })
   }
 }

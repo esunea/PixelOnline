@@ -1,5 +1,6 @@
-export class Database {
-  constructor() {
+
+class Database {
+  constructor(MongoClient) {
     this.USE_DB = false;
     this.users = [
       {
@@ -8,12 +9,19 @@ export class Database {
         password:"1234"
       }
     ]
+    if (this.USE_DB) {
+      MongoClient.connect("mongodb://localhost/pixelonline", function(error, db) {
+          if (error) return funcCallback(error);
+
+          console.log("Connecté à la base de données 'pixelonline'");
+      });
+    }
   }
   login (email, password) {
     if (!this.USE_DB) {
       let isLogged = false;
       this.users.forEach(user => {
-        if (user.email === email && user.password === password) isLogged = true;
+        if (user.email === email && user.password === password) isLogged = user;
       })
       return isLogged;
     }
@@ -38,4 +46,14 @@ export class Database {
       return isUnique;
     }
   }
+  getUser (collection, field, value) {
+    if (!this.USE_DB) {
+      let isUnique = true;
+      this[collection].forEach(item => {
+        if (item[field] === value) isUnique = false;
+      })
+      return isUnique;
+    }
+  }
 }
+module.exports = {Database: Database}

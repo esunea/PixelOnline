@@ -53,4 +53,7 @@ export class Pane {
       $(event.target).closest('.window').css('z-index', ++z);
     });
   }
+  destroy () {
+    $('#' + this.id).remove()
+  }
 }
