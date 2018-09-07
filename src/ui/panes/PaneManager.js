@@ -1,4 +1,5 @@
 import {Pane, PaneButton, PaneLogin, PaneRegister, PaneTab} from "../";
+import interact from "interactjs";
 import $ from 'webpack-zepto'
 
 export class PaneManager {
@@ -14,6 +15,29 @@ export class PaneManager {
       this.get('panes', args.id).toggleActive();
       this.get('buttons', args.btnId).toggleActive();
     })
+    $(document).on('setForeground', (event, args) => {
+      console.log("clicked", this.panes);
+      this.setOnTop(args)
+    })
+    interact(".window").on('down', (event) => {
+      console.log(event.currentTarget.id);
+      $(document.body).trigger('setForeground', event.currentTarget.id)
+    });
+    interact(".draggable").draggable({
+      allowFrom: '.window--snap',
+      onmove: event => {
+        var target = event.target,
+            x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx,
+            y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy;
+
+        target.style.webkitTransform =
+        target.style.transform =
+          'translate(' + x + 'px, ' + y + 'px)';
+
+        target.setAttribute('data-x', x);
+        target.setAttribute('data-y', y);
+      }
+    });
   }
   createLogin() {
     let pane = new PaneLogin();
@@ -22,6 +46,10 @@ export class PaneManager {
       this.get('panes', 'login-pane').toggleActive();
       this.createRegister();
     })
+  }
+  createExample(id) {
+    let pane = new Pane({id:id, title:id});
+    this.panes.push(pane)
   }
   createRegister() {
     let pane = new PaneRegister()
@@ -46,6 +74,20 @@ export class PaneManager {
     pane.toggleActive();
     this.panes.push(pane)
     this.buttons.push(button)
+  }
+  setOnTop(paneId) {
+    let id = null
+    this.panes.forEach((pane, index) => {
+      if (pane.opts.id === paneId) id = index
+    })
+    let pane = this.panes.splice(id, 1)
+    this.panes.push(pane[0])
+    this.reOrder()
+  }
+  reOrder() {
+    this.panes.forEach((pane, i) => {
+      $('#' + pane.opts.id).css('z-index', this.z + i)
+    })
   }
   setConnected() {
     this.remove('panes', 'login-pane')

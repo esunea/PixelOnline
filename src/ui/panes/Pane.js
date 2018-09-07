@@ -37,9 +37,6 @@ export class Pane {
       })
     }
   }
-  setZIndex (z) {
-    this.elem.style.zIndex = z;
-  }
   setCentered () {
     this.elem.style.top = (window.innerHeight - this.opts.height) / 2 + "px";
     this.elem.style.left = (window.innerWidth - this.opts.width) / 2 + "px";
@@ -52,26 +49,7 @@ export class Pane {
     $(document.body).trigger('closePane', {id:this.opts.id})
   }
   setInteractable (resizable) {
-    let z = 1000;
     this.elem.classList.add('draggable')
-    interact(".draggable").draggable({
-      allowFrom: '.window--snap',
-      onmove: event => {
-        var target = event.target,
-            x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx,
-            y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy;
-
-        target.style.webkitTransform =
-        target.style.transform =
-          'translate(' + x + 'px, ' + y + 'px)';
-
-        target.setAttribute('data-x', x);
-        target.setAttribute('data-y', y);
-      }
-    });
-    interact(".window").on('down', function (event) {
-      $(event.target).closest('.window').css('z-index', ++z);
-    });
   }
   destroy () {
     $('#' + this.opts.id).remove()
