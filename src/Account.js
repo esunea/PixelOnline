@@ -14,11 +14,11 @@ export class Account {
       this.socket.emit('register', JSON.stringify(args));
     })
     this.socket.on('registerResponse', function (res) {
-      if (res !== "error") {
+      res = JSON.parse(res)
+      if (!res.error) {
         console.log(res);
-        let json_res = JSON.parse(res)
         $(document.body).trigger('closeRegister')
-      }
+      } else console.log(res.error);
     })
     this.socket.on('loginResponse', function (res) {
       if (res !== "error") {

@@ -7,3 +7,9 @@ body{
   overflow: hidden;
   font-family: sans-serif;
 }
+
+/* IMPORTS */
+@import './window.css';
+@import './utils.css';
+@import './window-button.css';
+@import './button.css';

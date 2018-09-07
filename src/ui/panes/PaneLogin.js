@@ -16,7 +16,7 @@ export class PaneLogin extends Pane {
         <input name="` + this.opts.id + `--email" type="text" placeholder="Johndoe@mail.com" />
         <label class="fullwidth noselect" for="` + this.opts.id + `--password">Password</label>
         <input name="` + this.opts.id + `--password" type="password" placeholder="••••" />
-        <div class="buttons noselect">
+        <div class="twoside noselect">
           <button id="` + this.opts.id + `--register">Register</button>
           <button class="primary" id="` + this.opts.id + `--submit">Connexion</button>
         </div>
