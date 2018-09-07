@@ -1,0 +1,57 @@
+#notifications{
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  z-index: 2000;
+  display: -webkit-flex;
+  display: -ms-flex;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+.notification{
+  max-width: 200px;
+  margin:0 24px 16px 24px;
+  padding: 24px;
+  position: relative;
+  border-image-slice: 8 8 8 8 fill;
+  border-image-width: 10px 10px 10px 10px;
+  border-image-outset: 0px 0px 0px 0px;
+  border-image-repeat: repeat stretch;
+  border-image-source: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAASCAYAAABWzo5XAAAApUlEQVQ4jc2UQQrCMBBFX8RD5AYBqWfIXEsQhVLRG7gSPEru0FLIDXIL3TQLbQOzSMW/zMyfeQyZMUwSEQBCCC8UEhEz5QOw0Zg0Mt8kuYOCCIBmtzd1iYAPEuecyvi4PwE4tgeqEm1LgRjj4nuJuBrR/xWazchaC5RnlOO/I0opAeC9XzRczrd1iWa71p2uKmP+0avsWq4MwDD2qnuUSYaxpyrRG35aL0dBSzn8AAAAAElFTkSuQmCC");
+}
+.notification.success,.notification.error,.notification.info{
+  padding-left: 64px;
+}
+.notification.success:after{
+  content: "";
+  width: 48px;
+  height: 48px;
+  position: absolute;
+  left: 8px;
+  top: 8px;
+  background: url("/assets/icons.png");
+  background-position: 0 -48px;
+}
+
+.notification.error:after{
+  content: "";
+  width: 48px;
+  height: 48px;
+  position: absolute;
+  left: 8px;
+  top: 8px;
+  background: url("/assets/icons.png");
+  background-position: -48px -48px;
+}
+
+.notification.info:after{
+  content: "";
+  width: 48px;
+  height: 48px;
+  position: absolute;
+  left: 8px;
+  top: 8px;
+  background: url("/assets/icons.png");
+  background-position: -94px -48px;
+}

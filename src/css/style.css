@@ -1,15 +1,26 @@
+@font-face {
+ font-family: "Kenney Mini";
+ src: url("./fonts/Kenney Mini.ttf") format("truetype");
+}
+@font-face {
+ font-family: "Kenney Mini Square";
+ src: url("./fonts/Kenney Mini Square.ttf") format("truetype");
+}
+
 html, body{
   width: 100vw;
   height: 100vh;
+  font-smooth: never;
+  -webkit-font-smoothing : none;
 }
 body{
   background: #114;
   overflow: hidden;
-  font-family: sans-serif;
+  font-family: 'Kenney Mini Square', sans-serif;
 }
-
 /* IMPORTS */
 @import './window.css';
 @import './utils.css';
 @import './window-button.css';
 @import './button.css';
+@import './notification.css';
