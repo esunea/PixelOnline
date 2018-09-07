@@ -7,7 +7,9 @@ import {Account} from './Account';
 export class Game {
   constructor(socket) {
     this.panemanager = new PaneManager();
-    this.panemanager.createLogin()
+    // this.panemanager.createLogin()
+    this.panemanager.createExample("a")
+    this.panemanager.createExample("b")
     this.account = new Account(socket);
     this.socket = socket;
     this.phaserConfig = {

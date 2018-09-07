@@ -37,6 +37,7 @@
     "phaser-animated-tiles": "^2.0.2",
     "socket.io": "^2.1.1",
     "style-loader": "^0.23.0",
+    "url-loader": "^1.1.1",
     "webpack-zepto": "0.0.1"
   }
 }
