@@ -13,6 +13,13 @@ export class Account {
     $(document).on('register', (event, args) => {
       this.socket.emit('register', JSON.stringify(args));
     })
+    this.socket.on('registerResponse', function (res) {
+      if (res !== "error") {
+        console.log(res);
+        let json_res = JSON.parse(res)
+        $(document.body).trigger('closeRegister')
+      }
+    })
     this.socket.on('loginResponse', function (res) {
       if (res !== "error") {
         console.log(res);
