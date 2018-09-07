@@ -13,15 +13,16 @@ export class PaneRegister extends Pane {
     document.querySelector('#' + this.opts.id + ' .window--content').innerHTML = `
       <div class="window--margins">
         <label class="fullwidth noselect" for="` + this.opts.id + `--username">Username:</label>
-        <input name="` + this.opts.id + `--username" type="text" placeholder="Johndoe" />
+        <input autocomplete="false" name="` + this.opts.id + `--username" type="text" placeholder="Johndoe" />
 
         <label class="fullwidth noselect" for="` + this.opts.id + `--email">Email:</label>
-        <input name="` + this.opts.id + `--email" type="text" placeholder="Johndoe@mail.com" />
+        <input autocomplete="false" name="` + this.opts.id + `--email" type="text" placeholder="Johndoe@mail.com" />
 
         <label class="fullwidth noselect" for="` + this.opts.id + `--password">Confirmation</label>
-        <input name="` + this.opts.id + `--password" type="password" placeholder="••••" />
+        <input autocomplete="new-password" name="` + this.opts.id + `--password" type="password" placeholder="••••" />
         <div class="buttons noselect">
-          <button>Register</button>
+          <div></div>
+          <button class="primary" id="` + this.opts.id + `--submit">Register</button>
         </div>
       </div>
     `;
@@ -31,7 +32,7 @@ export class PaneRegister extends Pane {
     $(document).on('click','#' + this.opts.id + '--submit', event => {
       event.stopPropagation();
       let credentials = {
-        email: $('input[name=' + this.opts.id + '--username]').val(),
+        username: $('input[name=' + this.opts.id + '--username]').val(),
         email: $('input[name=' + this.opts.id + '--email]').val(),
         password: $('input[name=' + this.opts.id + '--password]').val()
       }
