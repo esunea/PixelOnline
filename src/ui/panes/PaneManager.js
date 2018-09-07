@@ -15,13 +15,8 @@ export class PaneManager {
       this.get('panes', args.id).toggleActive();
       this.get('buttons', args.btnId).toggleActive();
     })
-    $(document).on('setForeground', (event, args) => {
-      console.log("clicked", this.panes);
-      this.setOnTop(args)
-    })
     interact(".window").on('down', (event) => {
-      console.log(event.currentTarget.id);
-      $(document.body).trigger('setForeground', event.currentTarget.id)
+      this.setOnTop(event.currentTarget.id)
     });
     interact(".draggable").draggable({
       allowFrom: '.window--snap',
