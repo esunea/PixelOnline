@@ -1,0 +1,102 @@
+.window{
+  box-sizing: border-box;
+  border-radius: 0px;
+  min-width: 200px;
+  min-height: 200px;
+  padding: 10px 8px 8px 8px;
+  position: absolute;
+  border-style: solid;
+  border-image: url(/assets/pane.png) 38 12 22 fill repeat;
+  border-width: 38px 12px 22px;
+}
+.window--snap{
+  position: absolute;
+  font-weight: bold;
+  top: -34px;
+  left: 0px;
+  width: 100%;
+  height: 32px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  box-sizing: border-box;
+  align-items: center;
+  color:#FEFEFE;
+}
+.window--snap .title{
+  background: #5b6ee1;
+  padding: 4px 16px 4px 8px;
+}
+.window--snap .controls{
+  background: #5b6ee1;
+  padding-left: 8px;
+  height: 30px;
+}
+.window--snap .controls button{
+  background: transparent;
+  position: relative;
+  width: 20px;
+  height: 20px;
+  padding:0;
+  margin:0;
+}
+.window--snap .controls button.close:hover:after, .window--snap .controls button.close:hover:before{
+  background: white;
+}
+.window--snap .controls button.close:active:after, .window--snap .controls button.close:active:before{
+  background: #515db9;
+}
+.window--snap .controls button.close{
+  transform: translateY(5px) rotate(45deg);
+}
+.window--snap .controls button.close:after{
+  content:"";
+  background: #ccd2f5;
+  left: 0;
+  top:8px;
+  position: absolute;
+  width: 100%;
+  height: 4px;
+}
+.window--snap .controls button.close:before{
+  content:"";
+  background: #ccd2f5;
+  top: 0;
+  left:8px;
+  position: absolute;
+  width: 4px;
+  height: 100%;
+}
+.window--resize{
+  position: absolute;
+  bottom: 3px;
+  right: 3px;
+  width: 16px;
+  height: 16px;
+}
+.window--spacer{
+  width: 100%;
+  height: 8px;
+}
+.window--spacer.lg{
+  height: 16px;
+}
+.window--margins{
+  margin: 8px;
+}
+.window--resize:after{
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 0;
+  bottom: 4px;
+  right: 4px;
+  border: 4px solid #CCC;
+  border-top: 4px solid transparent;
+  border-left: 4px solid transparent;
+}
+.window--resize:hover:after{
+  border: 4px solid #666;
+  border-top: 4px solid transparent;
+  border-left: 4px solid transparent;
+}
