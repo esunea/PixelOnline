@@ -11,14 +11,23 @@
 }
 .notification{
   max-width: 200px;
+  max-height: 999px;
+  transition: all .5s;
   margin:0 24px 16px 24px;
   padding: 24px;
+  overflow: hidden;
   position: relative;
   border-image-slice: 8 8 8 8 fill;
   border-image-width: 10px 10px 10px 10px;
   border-image-outset: 0px 0px 0px 0px;
   border-image-repeat: repeat stretch;
   border-image-source: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAASCAYAAABWzo5XAAAApUlEQVQ4jc2UQQrCMBBFX8RD5AYBqWfIXEsQhVLRG7gSPEru0FLIDXIL3TQLbQOzSMW/zMyfeQyZMUwSEQBCCC8UEhEz5QOw0Zg0Mt8kuYOCCIBmtzd1iYAPEuecyvi4PwE4tgeqEm1LgRjj4nuJuBrR/xWazchaC5RnlOO/I0opAeC9XzRczrd1iWa71p2uKmP+0avsWq4MwDD2qnuUSYaxpyrRG35aL0dBSzn8AAAAAElFTkSuQmCC");
+}
+.notification.appear {
+  margin-bottom: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+  max-height: 0;
 }
 .notification.success,.notification.error,.notification.info{
   padding-left: 64px;
