@@ -1,5 +1,5 @@
 import $ from 'webpack-zepto'
-
+import {Notification} from './ui/'
 export class Account {
   constructor(socket) {
     this.username = null;
@@ -18,16 +18,18 @@ export class Account {
       if (!res.error) {
         console.log(res);
         $(document.body).trigger('closeRegister')
-      } else console.log(res.error);
+        new Notification("Inscription validée!","success", 3000);
+      } else new Notification(res.error,"error", 3000);
     })
     this.socket.on('loginResponse', function (res) {
-      if (res !== "error") {
+      res = JSON.parse(res)
+      if (!res.error) {
         console.log(res);
-        let json_res = JSON.parse(res)
-        this.username = json_res.username;
-        this.email = json_res.email;
+        this.username = res.username;
+        this.email = res.email;
         window.game.panemanager.setConnected()
-      }
+        new Notification("Bonjour " + res.username + "!","success", 3000);
+      } else new Notification(res.error,"error", 3000);
     })
   }
 }
