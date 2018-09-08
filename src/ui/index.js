@@ -5,5 +5,4 @@ export * from "./panes/PaneLogin"
 export * from "./panes/PaneRegister"
 export * from "./panes/PaneTab"
 
-export * from "./notifications/NotificationManager"
 export * from "./notifications/Notification"

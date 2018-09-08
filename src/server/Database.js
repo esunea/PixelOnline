@@ -31,8 +31,8 @@ class Database {
       let user = false;
       this.db.collection('users').find({email:email, password: password}).toArray((err, results) => {
         if (results.length > 0) {
-          this.socket.emit('loginResponse', JSON.stringify(results));
-        } else this.socket.emit('loginResponse', "error");
+          this.socket.emit('loginResponse', JSON.stringify(results[0]));
+        } else this.socket.emit('loginResponse', JSON.stringify({"error":"Identifiants non valides!"}))
       });
     }
   }

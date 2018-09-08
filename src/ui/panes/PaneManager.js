@@ -48,8 +48,8 @@ export class PaneManager {
   }
   createRegister() {
     let pane = new PaneRegister()
-    pane.setZIndex(++this.z)
     this.panes.push(pane)
+    this.reOrder()
 
     $(document).one('closeRegister', event => {
       this.remove('panes', 'register-pane');
@@ -65,10 +65,10 @@ export class PaneManager {
       title: "Tchat",
       controls: true
     })
-    pane.setZIndex(++this.z)
     pane.toggleActive();
     this.panes.push(pane)
     this.buttons.push(button)
+    this.reOrder()
   }
   setOnTop(paneId) {
     let id = null
