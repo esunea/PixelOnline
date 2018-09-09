@@ -1,5 +1,6 @@
 import $ from 'webpack-zepto'
 import {Notification} from './ui/'
+import 'clientjs'
 export class Account {
   constructor(socket) {
     this.username = null;
@@ -7,6 +8,7 @@ export class Account {
     this.id = null;
     this.token = null;
     this.socket = socket
+    console.log(this.getFingerPrint());
     $(document).on('login', (event, args) => {
       this.socket.emit('login', JSON.stringify(args));
     })
@@ -31,5 +33,8 @@ export class Account {
         new Notification("Bonjour " + res.username + "!","success", 3000);
       } else new Notification(res.error,"error", 3000);
     })
+  }
+  getFingerPrint() {
+    return new ClientJS().getFingerprint()
   }
 }
