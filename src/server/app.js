@@ -20,23 +20,33 @@ function handler (req, res) {
     res.end(data);
   });
 }
+var CHAT = [];
 
+  var DB = new Database(MongoClient);
 io.on('connection', function (socket) {
-  var DB = new Database(MongoClient, socket);
   socket.on('login', function (detail) {
     console.log("[LOGIN] Trying with " + detail);
     detail = JSON.parse(detail)
-    DB.login(detail.email, detail.password, detail.fingerprint);
+    DB.login(socket, detail.email, detail.password, detail.fingerprint);
   })
   socket.on('loginToken', function (detail) {
     console.log("[LOGIN] Trying with " + detail);
     detail = JSON.parse(detail)
-    DB.loginToken(detail.email, detail.fingerprint, detail.tokenDate);
+    DB.loginToken(socket, detail.email, detail.fingerprint, detail.tokenDate);
   })
   socket.on('register', function (detail) {
     console.log("[REGISTER] Trying with " + detail);
     detail = JSON.parse(detail)
     console.log(detail);
-    DB.register(detail.username, detail.email, detail.password);
+    DB.register(socket, detail.username, detail.email, detail.password);
+  })
+  socket.on('message', function (msg) {
+    if (socket.user) {
+      console.log("[CHAT] Received :" + msg);
+      let newmessage = {username: socket.user.username, message: msg};
+      CHAT.push(newmessage)
+      if (CHAT.length > 50) CHAT.splice(0,1)
+      io.emit("chat", JSON.stringify(newmessage))
+    }
   })
 });

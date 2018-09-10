@@ -2,6 +2,9 @@
   width: 100px;
   display: block;
 }
+.fullheight{
+  height: 100%;
+}
 .twoside{
   display: -webkit-flex;
   flex-direction: row;
@@ -15,4 +18,14 @@
         -ms-user-select: none; /* Internet Explorer/Edge */
             user-select: none; /* Non-prefixed version, currently
                                   supported by Chrome and Opera */
+}
+.d-flex{
+  display: -webkit-flex;
+  display: -ms-flex;
+  display: flex;
+}
+.f-c{
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
 }

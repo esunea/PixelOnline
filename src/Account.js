@@ -32,7 +32,7 @@ export class Account {
         new Notification("Inscription validée!","success", 3000);
       } else new Notification(res.error,"error", 3000);
     })
-    this.socket.on('loginResponse', function (res) {
+    this.socket.on('loginResponse', (res) => {
       res = JSON.parse(res)
       if (!res.error) {
         console.log(res);

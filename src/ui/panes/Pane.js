@@ -19,7 +19,7 @@ export class Pane {
         width:` + this.opts.width + `px;
         height:` + this.opts.height + `px;
         ">
-      <div class="window--content"></div>
+      <div class="window--content fullheight"></div>
       <div class="window--snap noselect">
         <span class="title">` + this.opts.title + `</span>`
         + ((!this.opts.controls) ? `` : `<div class="controls"><button class="close" id="` + this.opts.id + `--close"></button></div>`) +

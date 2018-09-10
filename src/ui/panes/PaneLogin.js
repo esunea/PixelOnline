@@ -33,6 +33,16 @@ export class PaneLogin extends Pane {
       }
       $(document.body).trigger('login', credentials)
     })
+    $(document).on('keyup','#' + this.opts.id + '--submit',function(e){
+        if (e.keyCode === 13) {
+          event.stopPropagation();
+          let credentials = {
+            email: $('input[name=' + this.opts.id + '--email]').val(),
+            password: $('input[name=' + this.opts.id + '--password]').val()
+          }
+          $(document.body).trigger('login', credentials)
+      }
+    });
     $(document).on('click','#' + this.opts.id + '--register', event => {
       event.stopPropagation();
       $(document.body).trigger('openRegister')

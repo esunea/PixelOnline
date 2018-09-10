@@ -1,9 +1,8 @@
 var Validator = require('./Validator')
 var md5 = require('md5')
 class Database {
-  constructor(MongoClient, socket) {
+  constructor(MongoClient) {
     this.USE_DB = true;
-    this.socket = socket;
     this.users = [
       {
         username:"Leoche",
@@ -21,7 +20,7 @@ class Database {
       });
     }
   }
-  login (email, password, fingerprint) {
+  login (socket, email, password, fingerprint) {
     let response = "error";
     if (!this.USE_DB) {
       this.users.forEach(user => {
@@ -33,25 +32,28 @@ class Database {
       this.db.collection('users').find({email:email, password: password}).toArray((err, results) => {
         if (results.length > 0) {
           let token = this.createToken(email, fingerprint)
-          this.db.collection('users').update({'_id': results[0]._id}, {$set:{
+          this.db.collection('users').updateOne({'_id': results[0]._id}, {$set:{
             token: token.token,
             tokenDate: token.tokenDate
           }})
           results[0].token = token.token
           results[0].tokenDate = token.tokenDate
-          this.socket.emit('loginResponse', JSON.stringify(results[0]));
-        } else this.socket.emit('loginResponse', JSON.stringify({"error":"Identifiants non valides!"}))
+          socket.emit('loginResponse', JSON.stringify(results[0]));
+          socket.user = results[0]
+        } else socket.emit('loginResponse', JSON.stringify({"error":"Identifiants non valides!"}))
       });
     }
   }
-  loginToken (email, fingerprint, tokenDate) {
+  loginToken (socket, email, fingerprint, tokenDate) {
     let user = false;
     if (tokenDate + 60 * 30 < (new Date() / 1000 | 0)) {
       console.log("token invalid");
+      return;
     }
     this.db.collection('users').find({email:email, token: this.createToken(email, fingerprint, tokenDate).token, tokenDate:tokenDate}).toArray((err, results) => {
       if (results.length > 0) {
-        this.socket.emit('loginResponse', JSON.stringify(results[0]));
+        socket.user = results[0]
+        socket.emit('loginResponse', JSON.stringify(results[0]));
       }
     });
 
@@ -63,7 +65,7 @@ class Database {
       tokenDate: timestamp
     }
   }
-  register (username, email, password) {
+  register (socket, username, email, password) {
     let user = {
       'username': username,
       'email': email,
@@ -85,12 +87,12 @@ class Database {
         this.users.push(user)
       } else {
         this.db.collection('users').insertOne(user).then(() => {
-          this.socket.emit('registerResponse', JSON.stringify({"success":"OK"}));
+          socket.emit('registerResponse', JSON.stringify({"success":"OK"}));
         })
       }
     }).catch((error) => {
       console.log(error);
-      this.socket.emit('registerResponse', JSON.stringify({"error":error}))
+      socket.emit('registerResponse', JSON.stringify({"error":error}))
     })
   }
   isUnique (collection, field, value) {

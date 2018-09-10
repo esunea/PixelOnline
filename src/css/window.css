@@ -100,3 +100,14 @@
   border-top: 4px solid transparent;
   border-left: 4px solid transparent;
 }
+.window--chat{
+  flex-grow: 3;
+  overflow-y: scroll;
+}
+.window--chat .me{
+  text-align: right;
+  color:#333;
+}
+#chat-pane--message{
+  margin-bottom: 0;
+}
