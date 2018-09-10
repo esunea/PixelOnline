@@ -1,4 +1,5 @@
 var Validator = require('./Validator')
+var md5 = require('md5')
 class Database {
   constructor(MongoClient, socket) {
     this.USE_DB = true;
@@ -20,7 +21,7 @@ class Database {
       });
     }
   }
-  login (email, password) {
+  login (email, password, fingerprint) {
     let response = "error";
     if (!this.USE_DB) {
       this.users.forEach(user => {
@@ -31,16 +32,44 @@ class Database {
       let user = false;
       this.db.collection('users').find({email:email, password: password}).toArray((err, results) => {
         if (results.length > 0) {
+          let token = this.createToken(email, fingerprint)
+          this.db.collection('users').update({'_id': results[0]._id}, {$set:{
+            token: token.token,
+            tokenDate: token.tokenDate
+          }})
+          results[0].token = token.token
+          results[0].tokenDate = token.tokenDate
           this.socket.emit('loginResponse', JSON.stringify(results[0]));
         } else this.socket.emit('loginResponse', JSON.stringify({"error":"Identifiants non valides!"}))
       });
+    }
+  }
+  loginToken (email, fingerprint, tokenDate) {
+    let user = false;
+    if (tokenDate + 60 * 30 < (new Date() / 1000 | 0)) {
+      console.log("token invalid");
+    }
+    this.db.collection('users').find({email:email, token: this.createToken(email, fingerprint, tokenDate).token, tokenDate:tokenDate}).toArray((err, results) => {
+      if (results.length > 0) {
+        this.socket.emit('loginResponse', JSON.stringify(results[0]));
+      }
+    });
+
+  }
+  createToken(email, fingerprint, date) {
+    let timestamp = date || (new Date() / 1000 | 0);
+    return {
+      token: md5(email + fingerprint + timestamp),
+      tokenDate: timestamp
     }
   }
   register (username, email, password) {
     let user = {
       'username': username,
       'email': email,
-      'password': password
+      'password': password,
+      'token': null,
+      'tokenTimestamp': 0
     };
     new Promise((resolve, reject) => {
       if(!Validator.username(username)) reject('Username invalid')

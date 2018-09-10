@@ -24,12 +24,17 @@ function handler (req, res) {
 io.on('connection', function (socket) {
   var DB = new Database(MongoClient, socket);
   socket.on('login', function (detail) {
-    console.log("Receive login");
+    console.log("[LOGIN] Trying with " + detail);
     detail = JSON.parse(detail)
-    DB.login(detail.email, detail.password);
+    DB.login(detail.email, detail.password, detail.fingerprint);
+  })
+  socket.on('loginToken', function (detail) {
+    console.log("[LOGIN] Trying with " + detail);
+    detail = JSON.parse(detail)
+    DB.loginToken(detail.email, detail.fingerprint, detail.tokenDate);
   })
   socket.on('register', function (detail) {
-    console.log("Receive register");
+    console.log("[REGISTER] Trying with " + detail);
     detail = JSON.parse(detail)
     console.log(detail);
     DB.register(detail.username, detail.email, detail.password);

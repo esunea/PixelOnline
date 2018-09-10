@@ -8,8 +8,17 @@ export class Account {
     this.id = null;
     this.token = null;
     this.socket = socket
-    console.log(this.getFingerPrint());
+    if (localStorage.getItem('po_email') != null &&
+        localStorage.getItem('po_token') != null &&
+        localStorage.getItem('po_tokenDate') != null) {
+        this.socket.emit('loginToken', JSON.stringify({
+          email: localStorage.getItem('po_email'),
+          fingerprint: this.getFingerprint(),
+          tokenDate: parseInt(localStorage.getItem('po_tokenDate')),
+        }));
+    }
     $(document).on('login', (event, args) => {
+      args.fingerprint = this.getFingerprint()
       this.socket.emit('login', JSON.stringify(args));
     })
     $(document).on('register', (event, args) => {
@@ -29,12 +38,14 @@ export class Account {
         console.log(res);
         this.username = res.username;
         this.email = res.email;
+        localStorage.setItem('po_email', res.email);
+        localStorage.setItem('po_tokenDate', res.tokenDate);
         window.game.panemanager.setConnected()
         new Notification("Bonjour " + res.username + "!","success", 3000);
       } else new Notification(res.error,"error", 3000);
     })
   }
-  getFingerPrint() {
+  getFingerprint() {
     return new ClientJS().getFingerprint()
   }
 }
