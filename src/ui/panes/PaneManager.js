@@ -1,4 +1,4 @@
-import {Pane, PaneButton, PaneLogin, PaneRegister, PaneTab} from "../";
+import {Pane, PaneButton, PaneLogin, PaneRegister, PaneTab, PaneChat} from "../";
 import interact from "interactjs";
 import $ from 'webpack-zepto'
 
@@ -57,15 +57,8 @@ export class PaneManager {
     })
   }
   createTchat() {
-    let button = new PaneButton('tchat', 'tchat')
-    let pane = new PaneTab({
-      id: "tchat-pane",
-      width: 300,
-      height: 450,
-      title: "Tchat",
-      controls: true
-    })
-    pane.toggleActive();
+    let button = new PaneButton('chat', 'chat')
+    let pane = new PaneChat()
     this.panes.push(pane)
     this.buttons.push(button)
     this.reOrder()

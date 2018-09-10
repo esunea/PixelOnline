@@ -39,6 +39,6 @@
 .button-tab:active:after, .button-tab.active:after{
   top: 7px;
 }
-.button-tab--tchat:after{
+.button-tab--chat:after{
   background-position: -48px 0;
 }
