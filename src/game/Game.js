@@ -35,8 +35,8 @@ export class Game {
       let map = this.sprites[0]
 
       if (this.isMouseDown) {
-        map.x += (event.pageX - this.previousMouse.x) / 2
-        map.y += (event.pageY - this.previousMouse.y) / 2
+        map.x += (event.pageX - this.previousMouse.x)
+        map.y += (event.pageY - this.previousMouse.y)
       }
       this.previousMouse = new Point(event.pageX, event.pageY)
 
