@@ -8,7 +8,8 @@ export class PaneChat extends Pane {
       width: 300,
       height: 400,
       title: "Chat",
-      controls: false,
+      controls: true,
+      resizable:true,
       active:false
     });
     document.querySelector('#' + this.opts.id + ' .window--content').innerHTML = `

@@ -25,3 +25,15 @@ body{
 @import './window-button.css';
 @import './button.css';
 @import './notification.css';
+
+canvas{
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  right: 0;
+  background: red;
+}
+img{
+  display: none;
+}

@@ -8,7 +8,8 @@ export class PaneLogin extends Pane {
       width: 300,
       height: 268,
       title: "Login",
-      controls: false
+      controls: false,
+      resizable: true
     });
     document.querySelector('#' + this.opts.id + ' .window--content').innerHTML = `
       <div class="window--margins">

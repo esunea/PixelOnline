@@ -8,9 +8,7 @@ export class Account {
     this.id = null;
     this.token = null;
     this.socket = socket
-    if (localStorage.getItem('po_email') != null &&
-        localStorage.getItem('po_token') != null &&
-        localStorage.getItem('po_tokenDate') != null) {
+    if (this.hasToken()) {
         this.socket.emit('loginToken', JSON.stringify({
           email: localStorage.getItem('po_email'),
           fingerprint: this.getFingerprint(),
@@ -42,8 +40,15 @@ export class Account {
         localStorage.setItem('po_tokenDate', res.tokenDate);
         window.game.panemanager.setConnected()
         new Notification("Bonjour " + res.username + "!","success", 3000);
+      } else if (res.error = "tokeninvalid" ) {
+        window.game.panemanager.createLogin()
       } else new Notification(res.error,"error", 3000);
     })
+  }
+  hasToken () {
+    return localStorage.getItem('po_email') != null &&
+        localStorage.getItem('po_token') != null &&
+        localStorage.getItem('po_tokenDate') != null
   }
   getFingerprint() {
     return new ClientJS().getFingerprint()

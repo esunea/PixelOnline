@@ -19,6 +19,7 @@ export class Pane {
         width:` + this.opts.width + `px;
         height:` + this.opts.height + `px;
         ">
+        <div class="window--resize noselect"></div>
       <div class="window--content fullheight"></div>
       <div class="window--snap noselect">
         <span class="title">` + this.opts.title + `</span>`
@@ -29,7 +30,8 @@ export class Pane {
     this.elem = document.querySelector('#' + this.opts.id)
     if (this.opts.centered) this.setCentered();
     if (!this.opts.active) this.toggleActive();
-    if (this.opts.draggable) this.setInteractable(this.opts.resizable);
+    if (this.opts.draggable) this.elem.classList.add('draggable')
+    if (this.opts.resizable) this.elem.classList.add('resizable')
     if (this.opts.controls) {
       $(document).on('click','#' + this.opts.id + '--close', event => {
         event.stopPropagation();
@@ -47,9 +49,6 @@ export class Pane {
   }
   close () {
     $(document.body).trigger('closePane', {id:this.opts.id})
-  }
-  setInteractable (resizable) {
-    this.elem.classList.add('draggable')
   }
   destroy () {
     $('#' + this.opts.id).remove()

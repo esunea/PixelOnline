@@ -33,6 +33,22 @@ export class PaneManager {
         target.setAttribute('data-y', y);
       }
     });
+    interact(".resizable").resizable({
+      allowFrom: '.window--resize',
+      edges: { left: false, right: '.window--resize', bottom: '.window--resize', top: false }
+    })
+    interact(".resizable").on('resizemove', function (event) {
+      var target = event.target;
+
+    // add the change in coords to the previous width of the target element
+    var
+      newWidth  = parseFloat(target.style.width ) + event.dx,
+      newHeight = parseFloat(target.style.height) + event.dy;
+
+    // update the element's style
+    target.style.width  = newWidth + 'px';
+    target.style.height = newHeight + 'px';
+    });
   }
   createLogin() {
     let pane = new PaneLogin();

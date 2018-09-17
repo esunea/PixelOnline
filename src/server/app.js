@@ -2,6 +2,7 @@ var app = require('http').createServer(handler)
 var io = require('socket.io')(app);
 var fs = require('fs');
 var Database = require('./Database').Database
+var UserManager = require('./UserManager').UserManager
 var MongoClient = require("mongodb").MongoClient;
 String.prototype.capitalize = function() {
     return this.charAt(0).toUpperCase() + this.slice(1);
@@ -21,8 +22,8 @@ function handler (req, res) {
   });
 }
 var CHAT = [];
-
-  var DB = new Database(MongoClient);
+var usermanager = new UserManager();
+var DB = new Database(MongoClient, usermanager);
 io.on('connection', function (socket) {
   socket.on('login', function (detail) {
     console.log("[LOGIN] Trying with " + detail);
@@ -44,6 +45,9 @@ io.on('connection', function (socket) {
     if (socket.user) {
       console.log("[CHAT] Received :" + msg);
       let newmessage = {username: socket.user.username, message: msg};
+      if (msg[0] == "/") {
+        newmessage = {username: 'Console', message: eval(msg.substring(1))};
+      }
       CHAT.push(newmessage)
       if (CHAT.length > 50) CHAT.splice(0,1)
       io.emit("chat", JSON.stringify(newmessage))

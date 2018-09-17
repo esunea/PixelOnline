@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" tiledversion="1.1.6" orientation="isometric" renderorder="left-up" width="10" height="10" tilewidth="70" tileheight="36" infinite="0" nextobjectid="1">
+ <tileset firstgid="1" name="floor" tilewidth="70" tileheight="40" tilecount="1" columns="1">
+  <grid orientation="orthogonal" width="70" height="38"/>
+  <image source="../game/tile.png" width="70" height="40"/>
+ </tileset>
+ <tileset firstgid="2" name="wall" tilewidth="70" tileheight="120" tilecount="3" columns="3">
+  <image source="../game/wall.png" width="210" height="120"/>
+ </tileset>
+ <layer name="floor" width="10" height="10">
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,
+0,0,0,1,1,1,1,1,1,1,
+0,0,0,1,1,1,1,1,1,1,
+0,0,0,1,1,1,1,1,1,1,
+0,0,0,1,1,1,1,1,1,1,
+0,0,0,1,1,1,1,1,1,1,
+0,0,0,1,1,1,1,1,1,1,
+0,0,0,1,1,1,1,1,1,1,
+0,0,0,1,1,1,1,1,1,1
+</data>
+ </layer>
+ <layer name="wall" width="10" height="10">
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,
+0,0,0,4,3,3,3,3,3,3,
+0,0,0,2,0,0,0,0,0,0,
+0,0,0,2,0,0,0,0,0,0,
+0,0,0,2,0,0,0,0,0,0,
+0,0,0,2,0,0,0,0,0,0,
+0,0,0,2,0,0,0,0,0,0,
+0,0,0,2,0,0,0,0,0,0,
+0,0,0,2,0,0,0,0,0,0
+</data>
+ </layer>
+ <layer name="object" width="10" height="10" visible="0">
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0
+</data>
+ </layer>
+</map>

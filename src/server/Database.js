@@ -1,7 +1,8 @@
 var Validator = require('./Validator')
 var md5 = require('md5')
 class Database {
-  constructor(MongoClient) {
+  constructor(MongoClient, USERS) {
+    this.usermanager = USERS
     this.USE_DB = true;
     this.users = [
       {
@@ -40,6 +41,7 @@ class Database {
           results[0].tokenDate = token.tokenDate
           socket.emit('loginResponse', JSON.stringify(results[0]));
           socket.user = results[0]
+          this.usermanager.connect(socket)
         } else socket.emit('loginResponse', JSON.stringify({"error":"Identifiants non valides!"}))
       });
     }
@@ -47,14 +49,14 @@ class Database {
   loginToken (socket, email, fingerprint, tokenDate) {
     let user = false;
     if (tokenDate + 60 * 30 < (new Date() / 1000 | 0)) {
-      console.log("token invalid");
-      return;
+      socket.emit('loginResponse', JSON.stringify({error:"tokeninvalid"}));
     }
     this.db.collection('users').find({email:email, token: this.createToken(email, fingerprint, tokenDate).token, tokenDate:tokenDate}).toArray((err, results) => {
       if (results.length > 0) {
         socket.user = results[0]
+        this.usermanager.connect(socket)
         socket.emit('loginResponse', JSON.stringify(results[0]));
-      }
+      } else  socket.emit('loginResponse', JSON.stringify({error:"tokeninvalid"}));
     });
 
   }
