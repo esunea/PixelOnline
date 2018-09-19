@@ -16,8 +16,8 @@ export class Game {
 
     this.sprites = [new Room(this)]
     window.addEventListener('resize', event => {
-      this.renderer.canvas.width = window.innerWidth / 2
-      this.renderer.canvas.height = window.innerHeight / 2
+      this.renderer.canvas.width = window.innerWidth
+      this.renderer.canvas.height = window.innerHeight
     })
     console.log(this.sprites[0].getMap2d());
     this.isMouseDown = false
@@ -26,6 +26,7 @@ export class Game {
     this.renderer.canvas.addEventListener('mousedown', event => {
       this.isMouseDown = true
       this.lastDown = new Point(event.pageX, event.pageY)
+      let map = this.sprites[0].onClick()
     })
     this.renderer.canvas.addEventListener('mouseup', event => {
       this.isMouseDown = false
@@ -57,7 +58,7 @@ export class Game {
     this.loop()
   }
   update () {
-
+      this.sprites[0].update()
   }
   render () {
       this.renderer.render(this.sprites)
