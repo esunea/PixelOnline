@@ -1,17 +1,17 @@
-import {Sprite} from '../';
+import {Sprite, IsoSprite} from '../';
 import {Point} from '../../utils/math';
 export class Room {
   constructor() {
-    this.map = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
+    this.map = [1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
     this.floor = new Sprite(document.querySelector('#img-tile'), 0, 0)
-    this.cursor = new Sprite(document.querySelector('#img-cursor'), 0, 0)
     this.widthTile = 7;
     this.heightTile = 8;
     this.width = (this.widthTile + this.heightTile) * this.floor.width / 2;
     this.height = (this.widthTile + this.heightTile) * this.floor.height / 2;
     this.x = window.innerWidth / 2 - this.width / 2
     this.y = window.innerHeight / 2 - this.height / 2
-    this.cursorPos = null
+    this.cursor = new IsoSprite(document.querySelector('#img-cursor2'), 0, 0, this)
+    this.entities = []
   }
   setCursor (point) {
     if (point.x >= 0 &&
@@ -23,6 +23,16 @@ export class Room {
     } else {
       this.cursorPos = null
     }
+  }
+  getMap2d () {
+    let map2d = [];
+    for (var i = 0; i < this.widthTile; i++) {
+      for (var j = 0; j < this.heightTile; j++) {
+        if (!map2d[j]) map2d[j] = []
+        map2d[j][i] = this.map[i * this.widthTile + j]
+      }
+    }
+    return map2d
   }
   render (ctx) {
     for (var i = 0; i < this.widthTile; i++) {
@@ -36,10 +46,8 @@ export class Room {
     }
     // ctx.fillStyle = "rgba(255,0,0,.2)";
     // ctx.fillRect(this.x, this.y, this.width, this.height)
-    if (this.cursorPos !== null) {
-      this.cursor.x = this.x + (this.widthTile * this.floor.width / 2) + (this.cursorPos.x - this.cursorPos.y) * this.floor.width / 2
-      this.cursor.y = this.y + (this.cursorPos.x + this.cursorPos.y) * this.floor.height / 2
-      this.cursor.render(ctx)
-    }
+    this.cursor.render(ctx)
+
+    this.entities.forEach(entity => entity.render())
   }
 }
