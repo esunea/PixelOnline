@@ -1,4 +1,6 @@
 export * from "./Game"
 export * from "./Renderer"
 export * from "./entity/Sprite"
+export * from "./entity/IsoSprite"
+export * from "./entity/Player"
 export * from "./entity/Room"
