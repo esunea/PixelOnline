@@ -1,16 +1,16 @@
 import {Sprite, IsoSprite} from '../';
 import {Point} from '../../utils/math';
 export class Room {
-  constructor() {
+  constructor(game) {
     this.map = [1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
     this.floor = new Sprite(document.querySelector('#img-tile'), 0, 0)
     this.widthTile = 7;
     this.heightTile = 8;
     this.width = (this.widthTile + this.heightTile) * this.floor.width / 2;
     this.height = (this.widthTile + this.heightTile) * this.floor.height / 2;
-    this.x = window.innerWidth / 2 - this.width / 2
-    this.y = window.innerHeight / 2 - this.height / 2
-    this.cursor = new IsoSprite(document.querySelector('#img-cursor2'), 0, 0, this)
+    this.x = game.renderer.canvas.width / 2 - this.width / 2
+    this.y = game.renderer.canvas.height / 2 - this.height / 2
+    this.cursor = new IsoSprite(document.querySelector('#img-cursor'), 0, 0, this)
     this.entities = []
   }
   setCursor (point) {
@@ -19,9 +19,10 @@ export class Room {
         point.y >= 0 &&
         point.y < this.heightTile &&
       this.map[point.x * this.heightTile + point.y] !== 0){
-      this.cursorPos = point
+      this.cursor.setIsoXY(point.x, point.y)
+      this.cursor.setVisible(true)
     } else {
-      this.cursorPos = null
+      this.cursor.setVisible(false)
     }
   }
   getMap2d () {

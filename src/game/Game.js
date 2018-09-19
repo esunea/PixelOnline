@@ -14,12 +14,12 @@ export class Game {
     this.currentTime = 0
     this.delta = 0
 
-    this.sprites = [new Room()]
+    this.sprites = [new Room(this)]
     window.addEventListener('resize', event => {
-      this.renderer.canvas.width = window.innerWidth
-      this.renderer.canvas.height = window.innerHeight
+      this.renderer.canvas.width = window.innerWidth / 2
+      this.renderer.canvas.height = window.innerHeight / 2
     })
-
+    console.log(this.sprites[0].getMap2d());
     this.isMouseDown = false
     this.lastDown = new Point(0,0)
     this.lastUp = new Point(0,0)
