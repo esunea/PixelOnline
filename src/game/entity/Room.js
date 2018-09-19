@@ -3,10 +3,10 @@ import {Point, Pathfinder} from '../../utils/math';
 export class Room {
   constructor(game) {
     this.map2 = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
-    this.map3 = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
-    this.map = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
+    this.map = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
+    this.map4 = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
     this.floor = new Sprite(document.querySelector('#img-tile'), 0, 0)
-    this.widthTile = 5;
+    this.widthTile = 15;
     this.heightTile = 15;
     this.width = (this.widthTile + this.heightTile) * this.floor.width / 2;
     this.height = (this.widthTile + this.heightTile) * this.floor.height / 2;
@@ -24,7 +24,7 @@ export class Room {
         point.x < this.widthTile &&
         point.y >= 0 &&
         point.y < this.heightTile){
-          if (this.map[point.x * this.heightTile + point.y] !== 0) {
+          if (this.map[point.x * this.heightTile + point.y] > 0) {
             console.log(point.x, point.y);
             this.cursor.setIsoXY(point.x, point.y)
             this.cursor.setVisible(true)
@@ -46,7 +46,7 @@ export class Room {
     })
   }
   onClick () {
-    this.map[this.cursor.isoX * this.heightTile + this.cursor.isoY] = (this.map[this.cursor.isoX * this.heightTile + this.cursor.isoY] === 0) ? 1 : 0;
+    this.map[this.cursor.isoX * this.heightTile + this.cursor.isoY] = (this.map[this.cursor.isoX * this.heightTile + this.cursor.isoY] !== 1) ? 1 : 2;
     if (this.cursor.visible) {
       this.paths = []
       //this.start.setIsoXY(this.cursor.isoX, this.cursor.isoY)
@@ -73,15 +73,15 @@ export class Room {
   render (ctx) {
     for (var i = 0; i < this.widthTile; i++) {
       for (var j = 0; j < this.heightTile; j++) {
-        if (this.map[i * this.heightTile + j] !== 0) {
+        if (this.map[i * this.heightTile + j] === 1) {
           this.floor.x = this.x + (this.heightTile * this.floor.width / 2 - this.floor.width / 2) + (i - j) * this.floor.width / 2
           this.floor.y = this.y + (i + j) * this.floor.height / 2
           this.floor.render(ctx)
         }
       }
     }
-    ctx.fillStyle = "rgba(255,0,0,.2)"
-    ctx.fillRect(this.x, this.y, this.width, this.height)
+    // ctx.fillStyle = "rgba(255,0,0,.2)"
+    // ctx.fillRect(this.x, this.y, this.width, this.height)
     this.start.render(ctx, this)
     this.cursor.render(ctx, this)
     this.entities.forEach(entity => entity.render(ctx, this))

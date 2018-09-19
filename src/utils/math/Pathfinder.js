@@ -69,7 +69,7 @@ export class Pathfinder{
   }
 
   blocked (x, y) {
-    return (this.outOfBounds(x, y) || this.map[y][x] === 0)
+    return (this.outOfBounds(x, y) || this.map[y][x] !== 1)
   }
 
   findPath (xC, yC, xT, yT, maxSteps) {
