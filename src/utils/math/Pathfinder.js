@@ -85,7 +85,7 @@ export class Pathfinder{
     this.reset()
     .addTo('open', this.newStep(xC, yC, xT, yT, this.step));
 
-    while (this.open.length !== 0 && stepCount < 100) {
+    while (this.open.length !== 0 && stepCount < maxSteps) {
       stepCount++
       current = this.getBestOpen();
 

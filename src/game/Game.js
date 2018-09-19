@@ -50,6 +50,7 @@ export class Game {
           (screenPos.x / (map.floor.width / 2)  +  screenPos.y / (map.floor.height / 2)) /2,
           (screenPos.y / (map.floor.height / 2) - (screenPos.x / (map.floor.width / 2))) /2
         )
+        console.log(screenPos.x, screenPos.y, isoPos.floor().x, isoPos.floor().y);
         map.setCursor(isoPos.floor())
       } else {
         map.setCursor(-1, -1)
