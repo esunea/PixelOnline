@@ -25,6 +25,7 @@ var CHAT = [];
 var usermanager = new UserManager();
 var DB = new Database(MongoClient, usermanager);
 io.on('connection', function (socket) {
+  console.log("[CONNEXION] " + socket.id);
   socket.on('login', function (detail) {
     console.log("[LOGIN] Trying with " + detail);
     detail = JSON.parse(detail)

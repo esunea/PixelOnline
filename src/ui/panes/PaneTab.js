@@ -7,7 +7,4 @@ export class PaneTab extends Pane {
     super(options)
     this.opts.btnId = this.opts.id.replace("-pane", "-button")
   }
-  close () {
-    $(document.body).trigger('togglePane', {id:this.opts.id, btnId:this.opts.btnId})
-  }
 }

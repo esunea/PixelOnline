@@ -12,3 +12,47 @@ export function AABB (rect1, rect2) {
      rect1.y < rect2.y + rect2.height &&
      rect1.height + rect1.y > rect2.y)
 }
+export function compressRoom(map) {
+  let map2 = ''
+  let cursor = null
+  let counter = 0;
+  map.forEach((item, index) => {
+    if (cursor !== item) {
+      if (counter !== 0) {
+        if (counter === 1) {
+          map2 += cursor + "."
+        } else {
+          map2 += counter + "x" + cursor + "."
+        }
+      }
+      cursor = item
+      counter = 1
+    } else {
+      counter ++
+    }
+    if(index + 1 === map.length) {
+      if (counter === 1) {
+        map2 += cursor + "."
+      } else {
+        map2 += counter + "x" + cursor + "."
+      }
+    }
+  })
+  return map2.substring(0, map2.length - 1)
+}
+export function decompressRoom(map) {
+  let map2 = map.split('.')
+  let mapfinal = []
+  map2.forEach((item, index)=> {
+    console.log(item);
+    if (item.indexOf('x') === -1) {
+      mapfinal.push(parseInt(item))
+    } else {
+      let tmp = item.split('x')
+      for (var i = 0; i < parseInt(tmp[0]); i++) {
+        mapfinal.push(parseInt(parseInt(tmp[1])))
+      }
+    }
+  })
+  return mapfinal;
+}

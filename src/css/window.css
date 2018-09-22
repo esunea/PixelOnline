@@ -111,3 +111,29 @@
 #chat-pane--message{
   margin-bottom: 0;
 }
+ul.rooms{
+  padding:0;
+  margin:0;
+  list-style: none;
+}
+ul.rooms li{
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  height: 32px;
+  line-height: 32px;
+  box-shadow: inset 0 -1px 0 #AAA;
+  cursor:pointer;
+}
+ul.rooms li:last-child{
+  box-shadow: none;
+}
+ul.rooms li:hover{
+  background:#EEE;
+}
+ul.rooms li span{
+  margin-left: 8px
+}
+ul.rooms li span:last-child{
+  margin-right: 8px
+}

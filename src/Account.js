@@ -33,15 +33,14 @@ export class Account {
     this.socket.on('loginResponse', (res) => {
       res = JSON.parse(res)
       if (!res.error) {
-        console.log(res);
         this.username = res.username;
         this.email = res.email;
         localStorage.setItem('po_email', res.email);
         localStorage.setItem('po_tokenDate', res.tokenDate);
-        window.game.panemanager.setConnected()
+        window.game.ui.setConnected()
         new Notification("Bonjour " + res.username + "!","success", 3000);
       } else if (res.error = "tokeninvalid" ) {
-        window.game.panemanager.createLogin()
+        window.game.ui.createLogin()
       } else new Notification(res.error,"error", 3000);
     })
   }

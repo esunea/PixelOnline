@@ -1,6 +1,8 @@
 import {Renderer, Sprite, Room} from './';
 
 import {setRequestAnimationFrame, AABB} from '../utils/helpers';
+import {PaneManager} from '../ui/';
+import {Account} from '../Account';
 import {Point} from '../utils/math';
 
 
@@ -13,53 +15,54 @@ export class Game {
     this.lastTime = (new Date()).getTime()
     this.currentTime = 0
     this.delta = 0
+    this.socket = socket
+    this.sprites = []
+    this.ui = new PaneManager();
 
-    this.sprites = [new Room(this)]
-    window.addEventListener('resize', event => {
-      this.renderer.canvas.width = window.innerWidth
-      this.renderer.canvas.height = window.innerHeight
-    })
-    console.log(this.sprites[0].getMap2d());
-    this.isMouseDown = false
-    this.lastDown = new Point(0,0)
-    this.lastUp = new Point(0,0)
-    this.renderer.canvas.addEventListener('mousedown', event => {
-      this.isMouseDown = true
-      this.lastDown = new Point(event.pageX, event.pageY)
-      let map = this.sprites[0].onClick()
-    })
-    this.renderer.canvas.addEventListener('mouseup', event => {
-      this.isMouseDown = false
-    })
-    this.previousMouse = new Point(0, 0)
-    this.renderer.canvas.addEventListener('mousemove', event => {
-      let map = this.sprites[0]
-
-      if (this.isMouseDown) {
-        map.x += (event.pageX - this.previousMouse.x)
-        map.y += (event.pageY - this.previousMouse.y)
-      }
-      this.previousMouse = new Point(event.pageX, event.pageY)
-
-      if (AABB(this.previousMouse, map)) {
-        let screenPos = new Point(
-          ((event.pageX - this.sprites[0].x - (map.heightTile * map.floor.width / 2))),
-          ((event.pageY - this.sprites[0].y))
-        )
-        let isoPos = new Point(
-          (screenPos.x / (map.floor.width / 2)  +  screenPos.y / (map.floor.height / 2)) /2,
-          (screenPos.y / (map.floor.height / 2) - (screenPos.x / (map.floor.width / 2))) /2
-        )
-        console.log(screenPos.x, screenPos.y, isoPos.floor().x, isoPos.floor().y);
-        map.setCursor(isoPos.floor())
-      } else {
-        map.setCursor(-1, -1)
-      }
-    })
+    this.account = new Account(socket)
+    //* CONTROLS ---------------
+    // window.addEventListener('resize', event => {
+    //   this.renderer.canvas.width = window.innerWidth
+    //   this.renderer.canvas.height = window.innerHeight
+    // })
+    // this.isMouseDown = false
+    // this.lastDown = new Point(0,0)
+    // this.lastUp = new Point(0,0)
+    // this.renderer.canvas.addEventListener('mousedown', event => {
+    //   this.isMouseDown = true
+    //   this.lastDown = new Point(event.pageX, event.pageY)
+    //   let map = this.sprites[0].onClick()
+    // })
+    // this.renderer.canvas.addEventListener('mouseup', event => {
+    //   this.isMouseDown = false
+    // })
+    // this.previousMouse = new Point(0, 0)
+    // this.renderer.canvas.addEventListener('mousemove', event => {
+    //   let map = this.sprites[0]
+    //
+    //   if (this.isMouseDown) {
+    //     map.x += (event.pageX - this.previousMouse.x)
+    //     map.y += (event.pageY - this.previousMouse.y)
+    //   }
+    //   this.previousMouse = new Point(event.pageX, event.pageY)
+    //
+    //   if (AABB(this.previousMouse, map)) {
+    //     let screenPos = new Point(
+    //       ((event.pageX - this.sprites[0].x - (map.heightTile * map.floor.width / 2))),
+    //       ((event.pageY - this.sprites[0].y))
+    //     )
+    //     let isoPos = new Point(
+    //       (screenPos.x / (map.floor.width / 2)  +  screenPos.y / (map.floor.height / 2)) /2,
+    //       (screenPos.y / (map.floor.height / 2) - (screenPos.x / (map.floor.width / 2))) /2
+    //     )
+    //     map.setCursor(isoPos.floor())
+    //   } else {
+    //     map.setCursor(-1, -1)
+    //   }
+    // })
     this.loop()
   }
   update () {
-      this.sprites[0].update()
   }
   render () {
       this.renderer.render(this.sprites)

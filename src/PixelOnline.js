@@ -6,6 +6,6 @@ import {Game} from './game';
 export class PixelOnline {
   constructor(socket) {
     this.socket = socket;
-    this.game = new Game();
+    window.game = new Game(socket);
   }
 }

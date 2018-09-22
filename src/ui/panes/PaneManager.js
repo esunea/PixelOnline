@@ -1,4 +1,4 @@
-import {Pane, PaneButton, PaneLogin, PaneRegister, PaneTab, PaneChat} from "../";
+import {Pane, PaneButton, PaneLogin, PaneRegister, PaneTab, PaneChat, PaneRooms} from "../";
 import interact from "interactjs";
 import $ from 'webpack-zepto'
 
@@ -8,7 +8,13 @@ export class PaneManager {
     this.buttons = [];
     this.z = 1000;
     $(document).on('closePane', (event, args) => {
-      this.remove('panes', args.id);
+      if (this.get('panes', args.id) instanceof PaneTab) {
+        this.get('panes', args.id).toggleActive();
+        let btnId = this.get('panes', args.id).opts.btnId;
+        this.get('buttons', btnId).toggleActive();
+      } else {
+        this.remove('panes', args.id);
+      }
       console.log("closePane");
     })
     $(document).on('togglePane', (event, args) => {
@@ -72,13 +78,6 @@ export class PaneManager {
       this.get('panes', 'login-pane').toggleActive();
     })
   }
-  createTchat() {
-    let button = new PaneButton('chat', 'chat')
-    let pane = new PaneChat()
-    this.panes.push(pane)
-    this.buttons.push(button)
-    this.reOrder()
-  }
   setOnTop(paneId) {
     let id = null
     this.panes.forEach((pane, index) => {
@@ -95,7 +94,15 @@ export class PaneManager {
   }
   setConnected() {
     this.remove('panes', 'login-pane')
-    this.createTchat()
+    let button = new PaneButton('chat', 'chat')
+    let pane = new PaneChat()
+    this.panes.push(pane)
+    this.buttons.push(button)
+    button = new PaneButton('rooms', 'rooms')
+    pane = new PaneRooms()
+    this.panes.push(pane)
+    this.buttons.push(button)
+    this.reOrder()
   }
   remove (type, id) {
     this[type].forEach((item, i) => {
@@ -108,7 +115,7 @@ export class PaneManager {
   get (type, id) {
     let res = null;
     this[type].forEach(item => {
-      if(item.id === id || item.opts.id === id) res = item
+      if(item.opts.id === id) res = item
     })
     return res;
   }

@@ -42,3 +42,6 @@
 .button-tab--chat:after{
   background-position: -48px 0;
 }
+.button-tab--rooms:after{
+  background-position: -96px 0;
+}

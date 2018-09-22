@@ -1,7 +1,7 @@
-import {Pane} from "../";
+import {PaneTab} from "../";
 import $ from 'webpack-zepto'
 
-export class PaneChat extends Pane {
+export class PaneChat extends PaneTab {
   constructor () {
     super({
       id: "chat-pane",
@@ -24,8 +24,6 @@ export class PaneChat extends Pane {
     window.game.socket.on('chat', function (res) {
       res = JSON.parse(res)
       if (!res.error) {
-        console.log(res);
-        console.log(game);
         if (res.username == window.game.account.username) {
           $('.window--chat').append("<div class='me'>" + res.message + "</div>")
         } else {
