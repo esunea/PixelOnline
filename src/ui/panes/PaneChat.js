@@ -27,7 +27,11 @@ export class PaneChat extends PaneTab {
         if (res.username == window.game.account.username) {
           $('.window--chat').append("<div class='me'>" + res.message + "</div>")
         } else {
-          $('.window--chat').append("<div><strong>" + res.username + "</strong> : " + res.message + "</div>")
+          if (res.username != "Console") {
+            $('.window--chat').append("<div><strong>" + res.username + "</strong> : " + res.message + "</div>")
+          } else {
+            console.log(res.message);
+          }
         }
         $('.window--chat').scrollTop(999999999)
       }
@@ -40,7 +44,10 @@ export class PaneChat extends PaneTab {
           console.log("test");
           if ($(this).val() != "") {
             console.log($(this).val());
-            window.game.socket.emit('message', $(this).val())
+            let val = $(this).val()
+            if(val === "/r") val = "/roommanager.toString()"
+            if(val === "/u") val = "/usermanager.toString()"
+            window.game.socket.emit('message', val)
             $(this).val('')
           }
       }

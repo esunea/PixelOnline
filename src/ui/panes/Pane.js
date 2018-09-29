@@ -26,7 +26,7 @@ export class Pane {
         + ((!this.opts.controls) ? `` : `<div class="controls"><button class="close" id="` + this.opts.id + `--close"></button></div>`) +
         `</div>
     </div>`;
-    document.body.innerHTML += elem;
+    $('body').append(elem);
     this.elem = document.querySelector('#' + this.opts.id)
     if (this.opts.centered) this.setCentered();
     if (!this.opts.active) this.toggleActive();

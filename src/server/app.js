@@ -3,6 +3,7 @@ var io = require('socket.io')(app);
 var fs = require('fs');
 var Database = require('./Database').Database
 var UserManager = require('./UserManager').UserManager
+var RoomManager = require('./RoomManager').RoomManager
 var MongoClient = require("mongodb").MongoClient;
 String.prototype.capitalize = function() {
     return this.charAt(0).toUpperCase() + this.slice(1);
@@ -24,6 +25,7 @@ function handler (req, res) {
 var CHAT = [];
 var usermanager = new UserManager();
 var DB = new Database(MongoClient, usermanager);
+var roommanager = new RoomManager(DB);
 io.on('connection', function (socket) {
   console.log("[CONNEXION] " + socket.id);
   socket.on('login', function (detail) {
@@ -52,6 +54,22 @@ io.on('connection', function (socket) {
       CHAT.push(newmessage)
       if (CHAT.length > 50) CHAT.splice(0,1)
       io.emit("chat", JSON.stringify(newmessage))
+    }
+  })
+  socket.on('getRooms', function () {
+    console.log("[ROOMS] GET ALL");
+    DB.getRooms(socket)
+  })
+  socket.on('enterRooms', function (detail) {
+    detail = JSON.parse(detail)
+    console.log("[ROOMS] ENTER " + detail.roomId);
+    roommanager.enter(socket, usermanager.getUserById(socket.id), detail.roomId)
+  })
+  socket.on('disconnect', function () {
+    let user = usermanager.getUserById(socket.id)
+    if (user && user.roomId) {
+      console.log("[ROOMS] LEAVE " + user.roomId);
+      roommanager.leave(socket, user)
     }
   })
 });

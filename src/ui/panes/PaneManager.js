@@ -57,6 +57,7 @@ export class PaneManager {
     });
   }
   createLogin() {
+    console.log("de");
     let pane = new PaneLogin();
     this.panes.push(pane)
     $(document).on('openRegister', event => {

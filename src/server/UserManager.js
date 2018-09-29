@@ -1,3 +1,5 @@
+var JSON = require('circular-json');
+
 class UserManager {
   constructor() {
     this.users = []
@@ -7,7 +9,7 @@ class UserManager {
   }
   disconnect (id) {
     this.users.forEach((user, i) => {
-      if (user.id === id) this.users.splice(i, 1)
+      if (user._id === id) this.users.splice(i, 1)
     })
   }
   getUserById (id) {
@@ -18,11 +20,9 @@ class UserManager {
     return userFound;
   }
   toString () {
-    let arr = []
-    this.users.forEach((user, i) => {
-      arr.push(user.user.username)
-    })
-    return arr.join(", ");
+    let result = []
+    this.users.forEach(user => result.push(user.user))
+    return JSON.stringify(result);
   }
 }
 module.exports = {UserManager: UserManager}

@@ -44,7 +44,6 @@ export function decompressRoom(map) {
   let map2 = map.split('.')
   let mapfinal = []
   map2.forEach((item, index)=> {
-    console.log(item);
     if (item.indexOf('x') === -1) {
       mapfinal.push(parseInt(item))
     } else {
@@ -55,4 +54,7 @@ export function decompressRoom(map) {
     }
   })
   return mapfinal;
+}
+export function calcul(map) {
+  return map.replace(new RegExp("x", 'g'), "*").replace(new RegExp("\\.", 'g'), "+").replace(new RegExp("3", 'g'), "1").replace(new RegExp("2", 'g'), "1")
 }

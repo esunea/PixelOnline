@@ -30,6 +30,7 @@
     "webpack-cli": "^3.0.1"
   },
   "dependencies": {
+    "circular-json": "^0.5.7",
     "clientjs": "^0.1.11",
     "css-loader": "^1.0.0",
     "interactjs": "^1.3.4",

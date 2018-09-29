@@ -1,14 +1,17 @@
-import {Sprite, IsoSprite, Player, Ball, BallBis, BallMini} from '../';
+import {Sprite, SpriteSheet, IsoSprite, Player, Ball, BallBis, BallMini} from '../';
 import {Point, Pathfinder} from '../../utils/math';
-import {compressRoom, decompressRoom} from '../../utils/helpers';
+import {compressRoom, decompressRoom, calcul} from '../../utils/helpers';
 export class Room {
-  constructor(game) {
-    this.map2 = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
-    this.map = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
-    this.map4 = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 1, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 1, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 1, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 1, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 1, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 1, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 1, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 1, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3];
-    this.floor = new Sprite(document.querySelector('#img-tile'), 0, 0)
-    this.widthTile = 15;
-    this.heightTile = 15;
+  constructor(game, room) {
+    console.log(room);
+    this.map = decompressRoom(room.map);
+    console.log(calcul(room.map));
+    console.log(this.map);
+    this.floor = new SpriteSheet(document.querySelector('#img-floors'), 0, 0, 64, 32)
+    this.floor.setFrame(3)
+    this.floor2 = new Sprite(document.querySelector('#img-tile2'), 0, 0)
+    this.widthTile = room.width;
+    this.heightTile = room.height;
     this.width = (this.widthTile + this.heightTile) * this.floor.width / 2;
     this.height = (this.widthTile + this.heightTile) * this.floor.height / 2;
     this.x = game.renderer.canvas.width / 2 - this.width / 2
@@ -16,20 +19,14 @@ export class Room {
     this.cursor = new IsoSprite(document.querySelector('#img-cursor'), 0, 0, this)
     this.entities = []
     this.paths = []
-    this.start = new Ball(0, 0, this)
-    this.end = new BallBis(4, 14, this)
-    this.createPath()
-    console.log(this.map4);
-    console.log(compressRoom(this.map4));
-    console.log(decompressRoom(compressRoom(this.map4)));
-    console.log(compressRoom(decompressRoom(compressRoom(this.map4))));
+    //this.createPath()
   }
   setCursor (point) {
     if (point.x >= 0 &&
         point.x < this.widthTile &&
         point.y >= 0 &&
         point.y < this.heightTile){
-          if (this.map[point.x * this.heightTile + point.y] > 0) {
+          if (this.map[point.y * this.heightTile + point.x] > 0) {
             this.cursor.setIsoXY(point.x, point.y)
             this.cursor.setVisible(true)
           } else {
@@ -50,12 +47,12 @@ export class Room {
     })
   }
   onClick () {
-    this.map[this.cursor.isoX * this.heightTile + this.cursor.isoY] = (this.map[this.cursor.isoX * this.heightTile + this.cursor.isoY] !== 1) ? 1 : 2;
-    if (this.cursor.visible) {
-      this.paths = []
-      //this.start.setIsoXY(this.cursor.isoX, this.cursor.isoY)
-      this.createPath()
-    }
+    // this.map[this.cursor.isoX * this.heightTile + this.cursor.isoY] = (this.map[this.cursor.isoX * this.heightTile + this.cursor.isoY] !== 1) ? 1 : 2;
+    // if (this.cursor.visible) {
+    //   this.paths = []
+    //   //this.start.setIsoXY(this.cursor.isoX, this.cursor.isoY)
+    //   this.createPath()
+    // }
   }
   getMap2d () {
     let map2d = [];
@@ -68,28 +65,25 @@ export class Room {
     return map2d
   }
   update () {
-    this.start.update()
     this.cursor.update()
-    this.entities.forEach(entity => entity.update())
-    this.paths.forEach(path => path.update())
-    this.end.update()
   }
   render (ctx) {
     for (var i = 0; i < this.widthTile; i++) {
       for (var j = 0; j < this.heightTile; j++) {
-        if (this.map[i * this.heightTile + j] === 1) {
-          this.floor.x = this.x + (this.heightTile * this.floor.width / 2 - this.floor.width / 2) + (i - j) * this.floor.width / 2
-          this.floor.y = this.y + (i + j) * this.floor.height / 2
-          this.floor.render(ctx)
+        if (this.map[i * this.heightTile + j] === 3) {
+          this.floor.setFrame(0)
+        } else if (this.map[i * this.heightTile + j] === 2){
+          this.floor.setFrame(3)
+        } else {
+          this.floor.setFrame(1)
         }
+        this.floor.x = this.x + (this.heightTile * this.floor.width / 2 - this.floor.width / 2) - (i - j) * this.floor.width / 2
+        this.floor.y = this.y + (i + j) * this.floor.height / 2
+        this.floor.render(ctx)
       }
     }
-    // ctx.fillStyle = "rgba(255,0,0,.2)"
-    // ctx.fillRect(this.x, this.y, this.width, this.height)
-    this.start.render(ctx, this)
+    ctx.fillStyle = "rgba(255,0,0,.05)"
+    ctx.fillRect(this.x, this.y, this.width, this.height)
     this.cursor.render(ctx, this)
-    this.entities.forEach(entity => entity.render(ctx, this))
-    this.paths.forEach(path => path.render(ctx, this))
-    this.end.render(ctx, this)
   }
 }

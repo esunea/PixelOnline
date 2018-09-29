@@ -14,9 +14,9 @@ export class PaneLogin extends Pane {
     document.querySelector('#' + this.opts.id + ' .window--content').innerHTML = `
       <div class="window--margins">
         <label class="fullwidth noselect" for="` + this.opts.id + `--email">Email:</label>
-        <input name="` + this.opts.id + `--email" type="text" placeholder="Johndoe@mail.com" />
+        <input name="` + this.opts.id + `--email" type="text" placeholder="Johndoe@mail.com" value="test@test.te"/>
         <label class="fullwidth noselect" for="` + this.opts.id + `--password">Password</label>
-        <input name="` + this.opts.id + `--password" type="password" placeholder="••••" />
+        <input name="` + this.opts.id + `--password" type="password" placeholder="••••" value="testtest"/>
         <div class="twoside noselect">
           <button id="` + this.opts.id + `--register">Register</button>
           <button class="primary" id="` + this.opts.id + `--submit">Connexion</button>

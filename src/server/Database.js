@@ -1,5 +1,6 @@
 var Validator = require('./Validator')
 var md5 = require('md5')
+var ObjectId = require('mongodb').ObjectID;
 class Database {
   constructor(MongoClient, USERS) {
     this.usermanager = USERS
@@ -50,13 +51,16 @@ class Database {
     let user = false;
     if (tokenDate + 60 * 30 < (new Date() / 1000 | 0)) {
       socket.emit('loginResponse', JSON.stringify({error:"tokeninvalid"}));
+      return;
     }
     this.db.collection('users').find({email:email, token: this.createToken(email, fingerprint, tokenDate).token, tokenDate:tokenDate}).toArray((err, results) => {
       if (results.length > 0) {
         socket.user = results[0]
         this.usermanager.connect(socket)
         socket.emit('loginResponse', JSON.stringify(results[0]));
-      } else  socket.emit('loginResponse', JSON.stringify({error:"tokeninvalid"}));
+      } else {
+        socket.emit('loginResponse', JSON.stringify({error:"tokeninvalid"}));
+      }
     });
 
   }
@@ -106,13 +110,11 @@ class Database {
         })
         resolve()
       } else {
-        this.db.collection(collection).find({[field] :value}).toArray((err, results) => {
-          if (results.length > 0) {
+        if (this.db.collection(collection).findOne({[field] :value})) {
             reject(field.capitalize() + ' already taken.')
-          } else {
-            resolve()
-          }
-        })
+        } else {
+          resolve()
+        }
       }
     });
   }
@@ -124,6 +126,26 @@ class Database {
       })
       return isUnique;
     }
+  }
+  getRooms (socket) {
+    return new Promise((resolve, reject) => {
+      this.db.collection('rooms').find().toArray((err, results) => {
+        if (!err) {
+          socket.emit('rooms', JSON.stringify({"rooms":results}))
+        } else {
+          reject()
+        }
+      })
+    })
+  }
+  getRoom (id) {
+    return new Promise((resolve, reject) => {
+      let room = this.db.collection('rooms').find({_id:ObjectId(id)}).toArray((err, results) => {
+        if (results.length > 0) {
+          resolve(results[0])
+        } else reject()
+      })
+    })
   }
 }
 module.exports = {Database: Database}

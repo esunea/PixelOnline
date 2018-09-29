@@ -33,5 +33,26 @@ export class PaneRooms extends PaneTab {
       </ul>
       </div>
     `;
+    window.game.socket.emit('getRooms');
+    window.game.socket.on('rooms', data => {
+      let rooms = JSON.parse(data).rooms;
+      console.log(rooms);
+      $('#' + this.opts.id + ' .window--content .rooms').empty()
+      rooms.forEach(room => {
+        $('#' + this.opts.id + ' .window--content .rooms').append(`<li class="room" data-roomid="` + room._id + `">
+          <span>` + room.name + `</span>
+          <span>0/10</span>
+        </li>`)
+      })
+      window.game.socket.emit('enterRooms', JSON.stringify({roomId:'5ba63f54c71b472294faa973'}));
+    });
+    window.game.socket.on('enteredRoom', data => {
+      data = JSON.parse(data)
+      window.game.enterRoom(data.room)
+    });
+    $(document).on('click', '.room', event => {
+      let roomId = event.currentTarget.dataset.roomid
+      window.game.socket.emit('enterRooms', JSON.stringify({roomId:roomId}));
+    })
   }
 }
