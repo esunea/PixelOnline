@@ -33,18 +33,20 @@ export class PaneRooms extends PaneTab {
       </ul>
       </div>
     `;
-    window.game.socket.emit('getRooms');
+    this.first = false;
     window.game.socket.on('rooms', data => {
       let rooms = JSON.parse(data).rooms;
-      console.log(rooms);
       $('#' + this.opts.id + ' .window--content .rooms').empty()
       rooms.forEach(room => {
         $('#' + this.opts.id + ' .window--content .rooms').append(`<li class="room" data-roomid="` + room._id + `">
           <span>` + room.name + `</span>
-          <span>0/10</span>
+          <span>` + room.users + `</span>
         </li>`)
+        if (!this.first) {
+          this.first = true
+          window.game.socket.emit('enterRooms', JSON.stringify({roomId:room._id.toString()}));
+        }
       })
-      window.game.socket.emit('enterRooms', JSON.stringify({roomId:'5ba63f54c71b472294faa973'}));
     });
     window.game.socket.on('enteredRoom', data => {
       data = JSON.parse(data)
@@ -53,6 +55,12 @@ export class PaneRooms extends PaneTab {
     $(document).on('click', '.room', event => {
       let roomId = event.currentTarget.dataset.roomid
       window.game.socket.emit('enterRooms', JSON.stringify({roomId:roomId}));
+      this.close()
     })
+  }
+  toggleActive () {
+    this.opts.active = !this.opts.active;
+    $("#" + this.opts.id).toggle()
+    if(!this.opts.active) window.game.socket.emit('getRooms');
   }
 }

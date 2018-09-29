@@ -1,26 +1,39 @@
 var ObjectId = require('mongodb').ObjectID;
 var JSON = require('circular-json');
 class RoomManager {
-  constructor(DB) {
+  constructor(io, DB, usermanager) {
     this.rooms = []
     this.DB = DB
+    this.io = io
+    this.usermanager = usermanager
   }
   enter (socket, user, id) {
     let roomFound = this.getRoomById(id)
+    console.log("user.roomId", user.roomId);
+    if (user.roomId) this.leave(socket, user)
     if (roomFound !== null) {
       user.roomId = id
+      this.usermanager.updateRoom(socket.id, id)
       if (this.hasUserInRoom(user, roomFound) === -1) {
+        user.x = roomFound.spawnX
+        user.y = roomFound.spawnY
         roomFound.users.push(user)
-        console.log("[ROOM] added user " + user.user.username + " in " + roomFound.name);
+        socket.join(roomFound._id.toString())
+        console.log("[ROOM] added user " + user.username + " in " + roomFound.name);
+        this.io.to(roomFound._id.toString()).emit('usersUpdate', JSON.stringify({"users":roomFound.users}));
       }
       socket.emit('enteredRoom', JSON.stringify({"room":roomFound}))
     } else {
       this.DB.getRoom(id).then(room => {
         user.roomId = id
+        this.usermanager.updateRoom(socket.id, id)
+        user.x = room.spawnX
+        user.y = room.spawnY
         room.users = [user]
         this.rooms.push(room)
+        socket.join(room._id.toString())
         console.log("[ROOM] added room " + room.name);
-        console.log("[ROOM] added user " + user.user.username + " in " + room.name);
+        console.log("[ROOM] added user " + user.username + " in " + room.name);
         socket.emit('enteredRoom', JSON.stringify({"room":room}))
       }).catch(err => console.log(err));
     }
@@ -28,12 +41,27 @@ class RoomManager {
   leave (socket, user) {
     let roomFound = this.getRoomById(user.roomId)
     if (!roomFound) return;
-    this.removeUserInRoom(user, roomFound)
+    this.removeUserInRoom(socket, user, roomFound)
     if (roomFound.users.length === 0)
     this.rooms.forEach((room, i) => {
       if (room._id === roomFound.id) this.rooms.splice(i, 1)
       console.log("[ROOM] removed room " + roomFound.name);
     })
+  }
+  move (socket, user, newPos) {
+    if (user) {
+      console.log(newPos);
+      let roomFound = this.getRoomById(user.roomId)
+      console.log(roomFound.name);
+      if (roomFound != null) {
+        let userId = this.hasUserInRoom(user, roomFound)
+        if (userId != -1) {
+          roomFound.users[userId].x = newPos.x
+          roomFound.users[userId].y = newPos.y
+          this.io.to(roomFound._id.toString()).emit('usersUpdate', JSON.stringify({"users":roomFound.users}));
+        }
+      }
+    }
   }
   getRoomById (id) {
     let roomFound = null;
@@ -48,20 +76,23 @@ class RoomManager {
   }
   hasUserInRoom (usermy, room) {
     let userFound = -1;
-    console.log("[ROOM] try to find " + usermy.user.username + " in " + room.name);
+    console.log("[ROOM] try to find " + usermy.username + " in " + room.name);
+    console.log(usermy);
     room.users.forEach((user, i) => {
-      if (user.user._id == usermy.user._id) {
+      if (user._id == usermy._id) {
         userFound = i
-        console.log("[ROOM] found " + usermy.user.username + " in " + room.name);
+        console.log("[ROOM] found " + usermy.username + " in " + room.name);
       }
     })
     return userFound;
   }
-  removeUserInRoom (usermy, room) {
+  removeUserInRoom (socket, usermy, room) {
     let userIndex = this.hasUserInRoom(usermy, room)
     if (userIndex !== -1) {
-      console.log("[ROOM] " + usermy.user.username + " leaved " + room.name);
+      console.log("[ROOM] " + usermy.username + " leaved " + room.name);
       room.users.splice(userIndex, 1)
+      socket.leave(room._id.toString())
+      this.io.to(room._id.toString()).emit('userLeave', JSON.stringify({"id":usermy._id}));
     }
   }
   toString () {

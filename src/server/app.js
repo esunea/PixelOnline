@@ -25,7 +25,7 @@ function handler (req, res) {
 var CHAT = [];
 var usermanager = new UserManager();
 var DB = new Database(MongoClient, usermanager);
-var roommanager = new RoomManager(DB);
+var roommanager = new RoomManager(io, DB, usermanager);
 io.on('connection', function (socket) {
   console.log("[CONNEXION] " + socket.id);
   socket.on('login', function (detail) {
@@ -58,18 +58,27 @@ io.on('connection', function (socket) {
   })
   socket.on('getRooms', function () {
     console.log("[ROOMS] GET ALL");
-    DB.getRooms(socket)
+    DB.getRooms(socket, roommanager)
   })
   socket.on('enterRooms', function (detail) {
     detail = JSON.parse(detail)
     console.log("[ROOMS] ENTER " + detail.roomId);
-    roommanager.enter(socket, usermanager.getUserById(socket.id), detail.roomId)
+    roommanager.enter(socket, usermanager.getUserById(socket.id).user, detail.roomId)
+  })
+  socket.on('move', function (detail) {
+    detail = JSON.parse(detail)
+    console.log("[ROOMS] GET ALL");
+    roommanager.move(socket, usermanager.getUserById(socket.id).user, detail)
   })
   socket.on('disconnect', function () {
+    console.log("[LOGOUT] " + socket.id);
     let user = usermanager.getUserById(socket.id)
-    if (user && user.roomId) {
-      console.log("[ROOMS] LEAVE " + user.roomId);
-      roommanager.leave(socket, user)
+    console.log(usermanager);
+    console.log("---------------");
+    console.log(user);
+    if (user && user.user.roomId) {
+      console.log("[ROOMS] LEAVE " + user.user.roomId);
+      roommanager.leave(socket, user.user)
     }
   })
 });

@@ -5,11 +5,12 @@ class UserManager {
     this.users = []
   }
   connect (user) {
+    user.user.roomId = null
     this.users.push(user)
   }
   disconnect (id) {
     this.users.forEach((user, i) => {
-      if (user._id === id) this.users.splice(i, 1)
+      if (user.id === id) this.users.splice(i, 1)
     })
   }
   getUserById (id) {
@@ -18,6 +19,18 @@ class UserManager {
       if (user.id === id) userFound = user
     })
     return userFound;
+  }
+  updateRoom (id, roomId) {
+    this.users.forEach((user, i) => {
+      if (user.id === id) {
+        this.users[i].user.roomId = roomId
+      }
+    })
+  }
+  getRoom (id) {
+    this.users.forEach((user, i) => {
+      if (user.id === id) return this.users[i].user.roomId
+    })
   }
   toString () {
     let result = []

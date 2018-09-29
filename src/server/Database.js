@@ -127,10 +127,14 @@ class Database {
       return isUnique;
     }
   }
-  getRooms (socket) {
+  getRooms (socket, roommanager) {
     return new Promise((resolve, reject) => {
       this.db.collection('rooms').find().toArray((err, results) => {
         if (!err) {
+          for (var i = 0; i < results.length; i++) {
+            results[i].users = 0
+            if(roommanager.getRoomById(results[i]._id.toString())) results[i].users = roommanager.getRoomById(results[i]._id.toString()).users.length
+          }
           socket.emit('rooms', JSON.stringify({"rooms":results}))
         } else {
           reject()
